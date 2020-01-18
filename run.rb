@@ -8,8 +8,8 @@ breeder = TitanBreeder.new(controller)
 screen = Screen.new
 
 kept_pokemon = 0
-collected = 3
-hatched = 5
+collected = 0
+hatched = 0
 at_breeder = false
 
 breeder.fly_to_breeder
@@ -17,8 +17,6 @@ at_breeder = true
 
 until kept_pokemon > 25 || File.open("quit.txt").read.include?("QUIT")
   if collected >= 5 && hatched >= 5
-    collected = 0
-    hatched = 0
     breeder.open_pokemon_box
     hatched.times do
       if screen.pokemon_shiny?
@@ -29,6 +27,8 @@ until kept_pokemon > 25 || File.open("quit.txt").read.include?("QUIT")
       end
     end
     breeder.add_eggs_to_party
+    collected = 0
+    hatched = 0
   end
 
   if at_breeder

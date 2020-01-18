@@ -1,8 +1,10 @@
 require 'net/ssh'
 
 class Controller
+  attr_reader :ssh
+
   def initialize(hostname, username, password)
-    @_ssh = Net::SSH.start(hostname, username, password: password)
+    @ssh = Net::SSH.start(hostname, username, password: password)
 
     ObjectSpace.define_finalizer(self, lambda { |object_id|
       ssh.close
@@ -14,33 +16,26 @@ class Controller
   end
 
   def press(button, seconds = nil)
-    puts "PRESS: #{button}"
-    key_down Array(button).map { |b| BUTTON_MAP[b] }
-    sleep seconds if !seconds.nil?
-    release_keys
+    print "PRESS: "
+    keys = Array(button).map { |b| BUTTON_MAP[b] }
+    codes = 6.times.map { |n| KEY_CODE[keys[n]] }
+    ssh.exec! "echo -ne '\\0\\0#{ codes.join }' > /dev/hidg0; sleep #{seconds || 0.1}s; echo -ne '\\0\\0\\0\\0\\0\\0\\0\\0' > /dev/hidg0;"
+    puts button
   end
 
   def hold(button)
-    puts "HOLDS: #{button}"
-    key_down Array(button).map { |b| BUTTON_MAP[b] }
-  end
-
-  private
-
-  def ssh
-    @_ssh
-  end
-
-  def key_down(keys)
+    print "HOLDS: "
+    keys = Array(button).map { |b| BUTTON_MAP[b] }
     codes = 6.times.map { |n| KEY_CODE[keys[n]] }
-    result = ssh.exec! "echo -ne '\\0\\0#{ codes.join }' > /dev/hidg0"
-    raise result if result != ""
+    ssh.exec! "echo -ne '\\0\\0#{ codes.join }' > /dev/hidg0;"
+    puts button
   end
 
   def release_keys
-    result = ssh.exec! "echo -ne '\\0\\0\\0\\0\\0\\0\\0\\0' > /dev/hidg0"
-    raise result if result != ""
+    ssh.exec! "echo -ne '\\0\\0\\0\\0\\0\\0\\0\\0' > /dev/hidg0;"
   end
+
+  private
 
   BUTTON_MAP = {
     :up => "w",

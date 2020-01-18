@@ -17,7 +17,7 @@ class TitanBreeder
     sleep 2
 
     # navigate route 5 to breeder
-    controller.press [:d_up, :d_right], 0.1
+    controller.press [:d_up, :d_right], 0.2
     sleep 1
 
     # confirm flight
@@ -28,7 +28,7 @@ class TitanBreeder
 
     controller.press :left, 0.5
     sleep 0.1
-    controller.press [:up, :right], 1
+    controller.press [:up, :right], 1.2
     sleep 2
   end
 
@@ -61,18 +61,18 @@ class TitanBreeder
     controller.hold [:right, :down]
     sleep 0.5
     controller.hold :right
-    sleep 0.5
-    controller.press [:right, :r], 3.5
+    sleep 1.75
+    controller.press [:right, :r], 2.5
     sleep 0.5
   end
 
   def bike_to_breeder
     controller.press :d_left, 0.8
-    controller.press :left, 6.2
-    controller.press [:left, :up], 0.75
+    controller.press :left, 6.1
+    controller.press [:left, :up], 0.5
     controller.press :up, 0.25
     sleep 0.1
-    controller.press [:up, :right], 1
+    controller.press [:up, :right], 1.5
     sleep 0.5
   end
 
