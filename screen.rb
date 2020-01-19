@@ -3,14 +3,17 @@ require 'open3'
 class Screen
   BREEDER_HAS_EGG = "50x50+1320+758"
   EGG_HATCHING = "100x50+426+877"
-  POKEMON_SHINY = "50x50+1822+168"
+  HAS_6_IV = "172x312+1472+230"
+  POKEMON_SHINY = "50x50+1822+170"
 
   def method_missing(method_name, *args, &block)
     image_name = method_name.to_s.gsub("?", "")
     `convert #{screencapture} -crop #{Object.const_get "Screen::#{image_name.upcase}"} test.png`
     difference = Open3.popen3("magick compare -metric DSSIM test.png #{image_name}.png difference.png") { |_, _, e| e.read }
 
-    difference.to_f < 0.1
+    puts "#{image_name.upcase}: #{difference} (#{difference.to_f < 0.01})"
+
+    difference.to_f < 0.01
   end
 
   def screencapture

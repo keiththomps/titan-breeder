@@ -7,7 +7,7 @@ controller = Controller.new(ENV["KEYBOARD_HOSTNAME"], ENV["KEYBOARD_USERNAME"], 
 breeder = TitanBreeder.new(controller)
 screen = Screen.new
 
-kept_pokemon = 0
+kept_pokemon = 2
 collected = 0
 hatched = 0
 at_breeder = false
@@ -19,7 +19,7 @@ until kept_pokemon > 25 || File.open("quit.txt").read.include?("QUIT")
   if collected >= 5 && hatched >= 5
     breeder.open_pokemon_box
     hatched.times do
-      if screen.pokemon_shiny?
+      if screen.pokemon_shiny? || screen.has_6_iv?
         breeder.store_pokemon(slot: kept_pokemon)
         kept_pokemon += 1
       else

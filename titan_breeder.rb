@@ -61,18 +61,18 @@ class TitanBreeder
     controller.hold [:right, :down]
     sleep 0.5
     controller.hold :right
-    sleep 1.75
-    controller.press [:right, :r], 2.5
+    sleep 0.5
+    controller.press [:right, :r], 4
     sleep 0.5
   end
 
   def bike_to_breeder
     controller.press :d_left, 0.8
-    controller.press :left, 6.1
+    controller.press :left, 6.25
     controller.press [:left, :up], 0.5
     controller.press :up, 0.25
     sleep 0.1
-    controller.press [:up, :right], 1.5
+    controller.press [:up, :right], 1.75
     sleep 0.5
   end
 
@@ -110,15 +110,15 @@ class TitanBreeder
 
   def store_pokemon(slot:)
     controller.press :a # menu
-    sleep 0.75
+    sleep 0.5
     controller.press :a # move
-    sleep 0.75
+    sleep 0.5
     controller.press :right
-    sleep 0.75
+    sleep 0.5
     controller.press :up
-    sleep 0.75
+    sleep 0.5
     controller.press :l # to storage
-    sleep 0.75
+    sleep 0.5
 
     # position pokemon
     (slot / 5).times { controller.press :right; sleep 0.5; }
@@ -139,19 +139,19 @@ class TitanBreeder
 
   def release_pokemon
     controller.press :a # menu
-    sleep 0.75
+    sleep 0.5
     controller.press :up
-    sleep 0.75
+    sleep 0.5
     controller.press :up
-    sleep 0.75
+    sleep 0.5
     controller.press :a # release
     sleep 1.5
     controller.press :up
-    sleep 0.75
+    sleep 0.5
     controller.press :a # yes
     sleep 1.5
     controller.press :a # released
-    sleep 0.75
+    sleep 0.5
   end
 
   def add_eggs_to_party
