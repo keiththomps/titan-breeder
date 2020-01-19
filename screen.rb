@@ -7,9 +7,9 @@ class Screen
   POKEMON_SHINY = "50x50+1822+170"
 
   def method_missing(method_name, *args, &block)
-    image_name = method_name.to_s.gsub("?", "")
-    `convert #{screencapture} -crop #{Object.const_get "Screen::#{image_name.upcase}"} test.png`
-    difference = Open3.popen3("magick compare -metric DSSIM test.png #{image_name}.png difference.png") { |_, _, e| e.read }
+    image_name = "images/#{method_name.to_s.gsub("?", "")}"
+    `convert #{screencapture} -crop #{Object.const_get "Screen::#{image_name.upcase}"} tmp/test.png`
+    difference = Open3.popen3("magick compare -metric DSSIM tmp/test.png #{image_name}.png tmp/difference.png") { |_, _, e| e.read }
 
     puts "#{image_name.upcase}: #{difference} (#{difference.to_f < 0.01})"
 
